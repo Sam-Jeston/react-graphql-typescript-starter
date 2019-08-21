@@ -8,7 +8,7 @@ interface QueryBlockParams {
 }
 
 const GET_BLOCK = gql`
-  query getRocketInventory($id: String!) {
+  query getBlock($id: ID!) {
     block(id: $id) {
       id
       transactions {
@@ -18,7 +18,35 @@ const GET_BLOCK = gql`
   }
 `
 
-export const BlockView: React.SFC<QueryBlockParams> = ({id}) => {
+export class BlockSelector extends React.Component {
+  state = { block: '1', submittedBlock: '1' }
+
+  handleChange(event: React.FormEvent<HTMLInputElement>) {
+    this.setState({ block: event.currentTarget.value })
+  }
+
+  handleSubmit(event: React.SyntheticEvent) {
+    event.preventDefault()
+    this.setState({ submittedBlock: this.state.block })
+  }
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={(e) => this.handleSubmit(e)}>
+          <label>
+            Name:
+          <input type="text" value={this.state.block} onChange={(e) => this.handleChange(e)} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <BlockView id={this.state.submittedBlock} />
+      </div>
+    )
+  }
+}
+
+const BlockView: React.SFC<QueryBlockParams> = ({ id }) => {
   const { loading, data } = useQuery<Block[], QueryBlockParams>(
     GET_BLOCK,
     { variables: { id } }
@@ -30,8 +58,8 @@ export const BlockView: React.SFC<QueryBlockParams> = ({id}) => {
       {loading ? (
         <p>Loading ...</p>
       ) : (
-        <p>{JSON.stringify(data)}</p>
-      )}
+          <p>{JSON.stringify(data)}</p>
+        )}
     </div>
   )
 }

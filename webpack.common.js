@@ -19,7 +19,8 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Production'
+      title: 'React GraphQL TS Starter',
+      template: 'index.html'
     })
   ],
   output: {
