@@ -35,8 +35,8 @@ export class BlockSelector extends React.Component {
       <div>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <label>
-            Name:
-          <input type="text" value={this.state.block} onChange={(e) => this.handleChange(e)} />
+            Block ID:
+            <input type="text" value={this.state.block} onChange={(e) => this.handleChange(e)} />
           </label>
           <input type="submit" value="Submit" />
         </form>
@@ -55,11 +55,11 @@ const BlockView: React.SFC<QueryBlockParams> = ({ id }) => {
   return (
     <div>
       <h3>Block</h3>
-      {loading ? (
+      { loading ? (
         <p>Loading ...</p>
       ) : (
-          <p>{JSON.stringify(data)}</p>
-        )}
+        <p>{JSON.stringify(data)}</p>
+      )}
     </div>
   )
 }
